@@ -1,7 +1,7 @@
 // Declare Variables
 var game;
 var wordBank = {
-    words: ["Mario"],
+    words: ["PacMan"],
 
     // Gives a random word when  called
     random: function() {
@@ -27,6 +27,7 @@ window.onload = function() {
         losses: 0,
         remainingGuesses: 12,
         used: [],
+        correct: [],
 
         // Elements
         winsElement: document.querySelector("#wins"),
@@ -40,6 +41,7 @@ window.onload = function() {
         render: function() {
             // TODO: Add rendering for the word element.
 
+
             this.winsElement.textContent = this.wins;
             this.lossesElement.textContent = this.losses;
             this.remainingElement.textContent= this.remainingGuesses;
@@ -52,10 +54,35 @@ window.onload = function() {
             if(!letterBank.checkIsLetter(input) || this.checkWasUsed(input))
                 return;
             
-            alert("Valid letter");
-
-            // TODO: Add Game Logic
             
+            // Put input into used
+            this.used.push(input);
+            var i = this.word.toLowerCase().indexOf(input);
+
+            // Not found in word, decrement guesses
+            if(i === -1){
+                this.remainingGuesses--;
+                
+                // No more guesses, player has lost, reset
+                if(this.remainingGuesses === 0){
+                    this.losses++;
+                    this.reset();
+                }
+            }
+
+            // Repeat until you don't find any more
+            while(i !== -1){
+                this.correct.push({letter: this.word[i], index: i});
+                i = this.word.toLowerCase().indexOf(input, i + 1);
+            }
+
+            // Player has found the word, update wins and reset
+            if(this.correct.length === this.word.length){
+                this.wins++;
+                this.reset();
+            }
+            
+            this.render();
         },
 
         // Test if we already used the letter
@@ -68,6 +95,7 @@ window.onload = function() {
             this.word = wordBank.random();
             this.remainingGuesses = 12;
             this.used = [];
+            this.correct =  [];
         }
     };
 

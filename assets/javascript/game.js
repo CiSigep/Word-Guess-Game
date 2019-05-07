@@ -35,11 +35,15 @@ window.onload = function() {
         wordElement: document.querySelector("#word"),
         remainingElement: document.querySelector("#remaining"),
         usedElement: document.querySelector("#used"),
+        puzzleSpans: [],
 
         // Functions
         // Renders game values to the screen.
         render: function() {
             // TODO: Add rendering for the word element.
+            this.correct.forEach(function(item) {
+                game.puzzleSpans[item.index].textContent = item.letter;
+            });
 
 
             this.winsElement.textContent = this.wins;
@@ -49,6 +53,16 @@ window.onload = function() {
             this.usedElement.textContent = this.used.length === 0 ? "" : this.usedElement.textContent + this.used[this.used.length - 1] + " ";
         },
 
+        initializePuzzle: function () {
+            for(var i = 0; i < this.word.length; i++){
+                var newSpan = document.createElement("span");
+                newSpan.textContent = "_";
+                this.puzzleSpans.push(newSpan);
+                this.wordElement.appendChild(newSpan);
+            }
+        },
+
+        // Takes in input from the keyboard
         takeInput: function(input){
             // Ignore non-letter input or already used input
             if(!letterBank.checkIsLetter(input) || this.checkWasUsed(input))
@@ -96,6 +110,11 @@ window.onload = function() {
             this.remainingGuesses = 12;
             this.used = [];
             this.correct =  [];
+            this.puzzleSpans = [];
+            while(this.wordElement.firstChild)
+                this.wordElement.removeChild(this.wordElement.firstChild);
+
+            this.initializePuzzle();
         }
     };
 
@@ -103,6 +122,6 @@ window.onload = function() {
         game.takeInput(event.key.toLowerCase());
     };
 
-
+    game.initializePuzzle();
     game.render();
 };

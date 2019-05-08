@@ -1,7 +1,13 @@
 // Declare Variables
 var game;
 var wordBank = {
-    words: ["PacMan"],
+    words: ["PacMan", "Mario", "Luigi", "Samus", "Nero", "Dante", "Ness", "Lucas", "Falco", "Fox", "Snake",
+            "Link", "Yoshi", "Kirby", "Bowser", "Peach", "Daisy", "Wario", "Waluigi", "Sonic", "Shadow",
+            "Shulk", "Ryu", "Ken", "Olimar", "Cloud", "Tifa", "Aeris", "Yuffie", "Ridley", "Simon", "Richter",
+            "Rosalina", "Zelda", "Shiek", "Wolf", "Bayonetta", "Roy", "Marth", "Pit", "Joker", "Chrom", "Ike",
+            "Robin", "Corrin", "Palutena", "Isabelle", "Panther", "Mona", "Skull", "Queen", "Kratos", "Ganondorf",
+            "GlaDOS", "Tails", "Knuckles", "Banjo", "Kazooie", "Sora", "Dragonborn", "Jak", "Daxter", "Ratchet",
+            "Clank", "Spyro", "Igor"],
 
     // Gives a random word when  called
     random: function() {
@@ -11,7 +17,7 @@ var wordBank = {
 
 var letterBank = {
     letters: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
-    "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
+              "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
 
     // Checks if query is a letter
     checkIsLetter: function(query) {
@@ -25,7 +31,7 @@ window.onload = function() {
         word: wordBank.random(),
         wins: 0,
         losses: 0,
-        remainingGuesses: 12,
+        remainingGuesses: 9,
         used: [],
         correct: [],
 
@@ -40,7 +46,6 @@ window.onload = function() {
         // Functions
         // Renders game values to the screen.
         render: function() {
-            // TODO: Add rendering for the word element.
             this.correct.forEach(function(item) {
                 game.puzzleSpans[item.index].textContent = item.letter;
             });
@@ -53,6 +58,7 @@ window.onload = function() {
             this.usedElement.textContent = this.used.length === 0 ? "" : this.usedElement.textContent + this.used[this.used.length - 1] + " ";
         },
 
+        // Creates the puzzle from the word given.
         initializePuzzle: function () {
             for(var i = 0; i < this.word.length; i++){
                 var newSpan = document.createElement("span");
@@ -71,7 +77,9 @@ window.onload = function() {
             
             // Put input into used
             this.used.push(input);
-            var i = this.word.toLowerCase().indexOf(input);
+
+            var lowerCaseWord = this.word.toLowerCase();
+            var i = lowerCaseWord.indexOf(input);
 
             // Not found in word, decrement guesses
             if(i === -1){
@@ -87,7 +95,7 @@ window.onload = function() {
             // Repeat until you don't find any more
             while(i !== -1){
                 this.correct.push({letter: this.word[i], index: i});
-                i = this.word.toLowerCase().indexOf(input, i + 1);
+                i = lowerCaseWord.indexOf(input, i + 1);
             }
 
             // Player has found the word, update wins and reset
@@ -107,10 +115,11 @@ window.onload = function() {
         // Resets the game
         reset: function () {
             this.word = wordBank.random();
-            this.remainingGuesses = 12;
+            this.remainingGuesses = 9;
             this.used = [];
             this.correct =  [];
             this.puzzleSpans = [];
+
             while(this.wordElement.firstChild)
                 this.wordElement.removeChild(this.wordElement.firstChild);
 

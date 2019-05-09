@@ -1,22 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <title>Video Game Character Hangman</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet">
+        <link rel="stylesheet" href="assets/css/style.css"> 
         <script src="assets/javascript/game.js"></script>
     </head>
     <body>
-        <h1>Video Game Character Hangman</h1>
+        <div class="container">
+            <div class="row">
+                <div class="co1-12">
+                    <img src="assets/images/Header.png" alt="Header" class="img-fluid">
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-12 px-0">
+                    <h2 class="dialogue-box p-2 text-center mb-0">Press any letter key to get started!</h2>
+                </div>
+            </div>
 
-        <div>Press any key to get started!</div>
-        <br>
-        <div>Wins: <span id="wins"></span></div>
-        <br>
-        <div>Losses: <span id="losses"></span></div>
-        <br>
-        <div>Current Word: <span id="word"></span></div>
-        <br>
-        <div>Guesses Left: <span id="remaining"></span></div>
-        <br>
-        <div>Letters Used: <span id="used"></span></div>
+
+            <div class="row">
+                <div class="col-lg-8 col-md-6 px-0"></div>
+                <div class="col-lg-4 col-md-6 px-0">
+                    <div class="container w-100">
+                        <div class="row">
+                            <div class="dialogue-box col-12">
+                                <h3 class="p-3 m-0">Wins: <span id="wins"></span></h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="dialogue-box col-12">
+                                <h3 class="p-3 m-0">Losses: <span id="losses"></span></h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="dialogue-box col-12">
+                                <h3 class="p-3 m-0">Current Word: <span id="word"></span></h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="dialogue-box col-12">
+                                <h3 class="p-3 m-0">Guesses Left: <span id="remaining"></span></h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="dialogue-box col-12 letter-box px-0">
+                                <h3 class="p-3 m-0">Letters Used:<br><span id="used"></span></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

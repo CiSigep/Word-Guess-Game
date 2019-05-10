@@ -1,13 +1,13 @@
 // Declare Variables
 var game;
+var audio;
 var wordBank = {
-    words: ["PacMan", "Mario", "Luigi", "Samus", "Nero", "Dante", "Ness", "Lucas", "Falco", "Fox", "Snake",
+    words: ["Mario", "Luigi", "Samus", "Nero", "Dante", "Ness", "Lucas", "Falco", "Fox", "Snake",
             "Link", "Yoshi", "Kirby", "Bowser", "Peach", "Daisy", "Wario", "Waluigi", "Sonic", "Shadow",
-            "Shulk", "Ryu", "Ken", "Olimar", "Cloud", "Tifa", "Aeris", "Yuffie", "Ridley", "Simon", "Richter",
-            "Rosalina", "Zelda", "Shiek", "Wolf", "Bayonetta", "Roy", "Marth", "Pit", "Joker", "Chrom", "Ike",
-            "Robin", "Corrin", "Palutena", "Isabelle", "Panther", "Mona", "Skull", "Queen", "Kratos", "Ganondorf",
-            "GlaDOS", "Tails", "Knuckles", "Banjo", "Kazooie", "Sora", "Dragonborn", "Jak", "Daxter", "Ratchet",
-            "Clank", "Spyro", "Igor"],
+            "Shulk", "Ryu", "Ken", "Olimar", "Cloud", "Ridley", "Simon", "Richter", "Rosalina", "Zelda", "Shiek",
+            "Wolf", "Bayonetta", "Roy", "Marth", "Pit", "Joker", "Chrom", "Ike", "Robin", "Corrin", "Palutena",
+            "Isabelle", "Kratos", "Ganondorf", "GLaDOS", "Tails", "Knuckles", "Banjo", "Kazooie", "Sora",
+            "Jak", "Daxter", "Ratchet", "Clank", "Spyro"],
 
     // Gives a random word when  called
     random: function() {
@@ -29,9 +29,11 @@ window.onload = function() {
     game = {
         // Variables
         word: wordBank.random(),
+        previousWord: "",
         wins: 0,
         losses: 0,
         remainingGuesses: 9,
+        gameEnded: false,
         used: [],
         correct: [],
 
@@ -41,6 +43,8 @@ window.onload = function() {
         wordElement: document.querySelector("#word"),
         remainingElement: document.querySelector("#remaining"),
         usedElement: document.querySelector("#used"),
+        previousElement: document.querySelector('#previousWord'),
+        imageElement: document.querySelector('#previousImage'),
         puzzleSpans: [],
 
         // Functions
@@ -56,6 +60,14 @@ window.onload = function() {
             this.remainingElement.textContent= this.remainingGuesses;
             
             this.usedElement.textContent = this.used.length === 0 ? "" : this.usedElement.textContent + this.used[this.used.length - 1] + " ";
+
+            if(this.gameEnded){
+                this.imageElement.src = 'assets/images/' + this.previousWord + '.png';
+                this.imageElement.alt = this.previousWord;
+
+                this.previousElement.textContent = this.previousWord;
+                this.gameEnded = false;
+            }
         },
 
         // Creates the puzzle from the word given.
@@ -114,6 +126,8 @@ window.onload = function() {
 
         // Resets the game
         reset: function () {
+            this.previousWord = this.word;
+            this.gameEnded = true;
             this.word = wordBank.random();
             this.remainingGuesses = 9;
             this.used = [];
@@ -124,11 +138,16 @@ window.onload = function() {
                 this.wordElement.removeChild(this.wordElement.firstChild);
 
             this.initializePuzzle();
+
         }
     };
 
+    audio = document.createElement('audio');
+    audio.src = 'assets/audio/button.mp3'
+
     document.onkeyup = function(event) {
         game.takeInput(event.key.toLowerCase());
+        audio.play();
     };
 
     game.initializePuzzle();
